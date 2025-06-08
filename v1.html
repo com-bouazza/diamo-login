@@ -1,54 +1,56 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Facebook Login</title>
-    <meta charset="UTF-8" />
-  </head>
-  <body>
-    <h2>Login with Facebook</h2>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Facebook Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <h2>Login with Facebook</h2>
 
-    <!-- زر تسجيل الدخول -->
-    <fb:login-button 
-      scope="public_profile,email"
-      onlogin="checkLoginState();">
-    </fb:login-button>
+  <div id="fb-root"></div>
 
-    <div id="user-info" style="margin-top: 20px;"></div>
+  <!-- Facebook login button -->
+  <fb:login-button 
+    scope="public_profile,email"
+    onlogin="checkLoginState();">
+  </fb:login-button>
 
-    <!-- SDK Facebook -->
-    <script>
-      window.fbAsyncInit = function () {
-        FB.init({
-          appId: '1015578647328815', // App ID الخاص بك
-          cookie: true,
-          xfbml: true,
-          version: 'v19.0'
-        });
+  <div id="user-info" style="margin-top: 20px;"></div>
 
-        FB.AppEvents.logPageView();
-      };
+  <!-- Facebook SDK -->
+  <script>
+    window.fbAsyncInit = function () {
+      FB.init({
+        appId: '1015578647328815', // App ID الخاص بك
+        cookie: true,
+        xfbml: true,
+        version: 'v19.0'
+      });
+      FB.AppEvents.logPageView();
+    };
 
-      (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
 
-      function checkLoginState() {
-        FB.getLoginStatus(function (response) {
-          if (response.status === 'connected') {
-            FB.api('/me', { fields: 'name,email' }, function (userInfo) {
-              document.getElementById('user-info').innerHTML =
-                '<p><strong>Name:</strong> ' + userInfo.name + '</p>' +
-                '<p><strong>Email:</strong> ' + userInfo.email + '</p>';
-            });
-          } else {
-            document.getElementById('user-info').innerHTML = '<p>User not logged in.</p>';
-          }
-        });
-      }
-    </script>
-  </body>
+    function checkLoginState() {
+      FB.getLoginStatus(function (response) {
+        if (response.status === 'connected') {
+          FB.api('/me', { fields: 'name,email' }, function (userInfo) {
+            document.getElementById('user-info').innerHTML =
+              '<p><strong>Name:</strong> ' + userInfo.name + '</p>' +
+              '<p><strong>Email:</strong> ' + userInfo.email + '</p>';
+          });
+        } else {
+          document.getElementById('user-info').innerHTML = '<p>User not logged in.</p>';
+        }
+      });
+    }
+  </script>
+</body>
 </html>
